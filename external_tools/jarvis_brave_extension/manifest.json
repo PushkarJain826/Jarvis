@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "Jarvis Brave Link",
+  "version": "1.0",
+  "description": "Gives Jarvis environmental awareness of open tabs.",
+  "permissions": [
+    "tabs"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
+}

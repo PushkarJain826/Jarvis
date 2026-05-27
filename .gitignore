@@ -1,0 +1,7 @@
+.env 
+__pycache__/
+.vscode/
+.idea/
+*.log
+JARVIS_CONTINUATION_CONTEXT.md
+external_tools/ffmpeg/

@@ -1,4 +1,12 @@
-requests
-pyttsx3
-SpeechRecognition
-langchain
+requests 
+python-dotenv 
+groq 
+edge-tts 
+pygame 
+SpeechRecognition 
+tabulate 
+websockets
+openai
+faster-whisper
+sounddevice
+scipy

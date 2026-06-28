@@ -4,7 +4,9 @@
   "version": "1.0",
   "description": "Gives Jarvis environmental awareness of open tabs.",
   "permissions": [
-    "tabs"
+    "tabs",
+    "alarms",
+    "offscreen"
   ],
   "background": {
     "service_worker": "background.js"

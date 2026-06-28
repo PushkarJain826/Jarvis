@@ -3,19 +3,26 @@ import json
 import asyncio
 from bridge import browser_bridge
 
-def open_browser(url: str, keyword: str, force_new: bool = False):
+def open_browser(url: str, keyword: str, force_new: bool = False, force_new_window: bool = False):
+    
+    # New window — skip extension entirely, use subprocess directly
+    if force_new_window:
+        import subprocess
+        brave_path = r"C:\Program Files\BraveSoftware\Brave-Browser\Application\brave.exe"
+        subprocess.Popen([brave_path, "--new-window", url])
+        print(f"[Jarvis] Opened new window → {url}")
+        return
+
     ext = browser_bridge.connected_extension
 
     if ext:
         async def _send_command():
             if force_new:
-                # Tell extension to open new tab directly
                 await ext.send(json.dumps({
                     "action": "open_tab",
                     "url": url
                 }))
             else:
-                # Ask extension to switch to existing tab
                 await ext.send(json.dumps({
                     "action": "switch_tab",
                     "keyword": keyword
@@ -45,10 +52,9 @@ def open_browser(url: str, keyword: str, force_new: bool = False):
                 return
 
             if result and result.get("status") == "opened":
-                print(f"[Jarvis] Opened new tab via extension → {url}")
+                print(f"[Jarvis] Opened new tab → {url}")
                 return
 
-            # Tab not found via extension, fallback
             print(f"[Jarvis] Tab not found, opening new tab → {url}")
 
         except Exception as e:
@@ -56,4 +62,14 @@ def open_browser(url: str, keyword: str, force_new: bool = False):
 
     # Fallback if extension not connected
     webbrowser.open_new_tab(url)
-    print(f"[Jarvis] Opened new tab → {url}")
+    print(f"[Jarvis] Opened new tab via webbrowser fallback → {url}")
+    
+    if force_new_window:
+        # Force new window via Brave's command line flag
+        import subprocess
+        brave_path = r"C:\Program Files\BraveSoftware\Brave-Browser\Application\brave.exe"
+        subprocess.Popen([brave_path, "--new-window", url])
+        print(f"[Jarvis] Opened new window → {url}")
+    else:
+        webbrowser.open_new_tab(url)
+        print(f"[Jarvis] Opened new tab via webbrowser fallback → {url}")

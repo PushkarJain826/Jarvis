@@ -1,5 +1,8 @@
 import requests
-API_KEY = "ba1ed707c9424dbeae869e88e45ad9ae"
+import dotenv
+
+dotenv.load_dotenv()
+API_KEY = dotenv.get_key(".env", "NEWS_API_KEY")
 url = "https://newsapi.org/v2/everything"
 params = {
     "q": "Apple",
